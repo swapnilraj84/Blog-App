@@ -1,4 +1,4 @@
-{% extends layout.html %}
+{% extends "layout.html" %}
 
 {% block title %}
 Blogging Website
@@ -6,6 +6,12 @@ Blogging Website
 
 {% block content %}
 
-<h1 class="text-center mt-4">Welcome to the Blogging Website</h1>
+<h1 class="text-center mt-4">Are you Sure you want to delete the Blog?</h1>
+
+<form method="post">
+    {% csrf_token %} 
+    <button class="btn btn-danger">Delete</button>
+    <a href="{% url 'blog_list' %}" class="btn btn-success">Cancel</a>
+</form>
 
 {% endblock %}
