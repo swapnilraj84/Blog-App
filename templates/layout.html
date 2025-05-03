@@ -7,64 +7,355 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <title>
         {% block title %}
-        Blog App made in Djnago
+        MindSpill - Where Thoughts Flow
         {% endblock %}
     </title>
+    <style>
+        :root {
+            --primary-color: #8a2be2;
+            --secondary-color: #4b0082;
+            --accent-color: #9370db;
+            --text-color: #f8f9fa;
+            --bg-dark: #121212;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a2e 100%);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(138, 43, 226, 0.2);
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.2;
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateY(-35px) translateX(15px);
+                opacity: 0.3;
+            }
+            75% {
+                transform: translateY(-20px) translateX(5px);
+                opacity: 0.4;
+            }
+        }
+        
+        .navbar {
+            background: rgba(18, 18, 18, 0.8) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--accent-color);
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .navbar img {
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar img:hover {
+            transform: scale(1.1);
+        }
+        
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--accent-color);
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 15px rgba(147, 112, 219, 0.5);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+            background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+        }
+        
+        .btn-danger {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .hero-section {
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .card {
+            background: rgba(26, 26, 46, 0.7);
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(138, 43, 226, 0.3);
+        }
+        
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+        
+        .card-title {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        
+        .card-footer {
+            background: transparent;
+            border-top: 1px solid rgba(147, 112, 219, 0.3);
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%238a2be2" fill-opacity="0.1" d="M0,192L48,165.3C96,139,192,85,288,80C384,75,480,117,576,149.3C672,181,768,203,864,186.7C960,171,1056,117,1152,90.7C1248,64,1344,64,1392,64L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat;
+            background-size: cover;
+            z-index: -1;
+        }
+        
+        footer {
+            background: rgba(18, 18, 18, 0.8);
+            padding: 1.5rem 0;
+            text-align: center;
+            border-top: 1px solid var(--accent-color);
+        }
+        
+        /* Animations for content */
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+    </style>
 </head>
 
-<body class="text-white">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Blogs</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+<body>
+    <!-- Animated Particles Background -->
+    <div class="particles" id="particles"></div>
+    
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <div class="d-flex align-items-center animate__animated animate__fadeInLeft">
+                <a class="navbar-brand">MindSpill</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item animate__animated animate__fadeInDown">
+                        <form class="d-flex position-relative" role="search" style="width: 300px;">
+                            <input class="form-control pe-5" type="search" placeholder="Search thoughts..." aria-label="Search">
+                            <button class="btn position-absolute end-0 top-0 h-100" type="submit" style="background: none; border: none;">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </li>
                 </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-              </li>
-            </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-            <a href="{% url 'blog_list' %}" class="btn btn-primary mx-2">Home</a>
-            {% if user.is_authenticated %}
-            <form method="post" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button class="btn btn-danger">Logout</button>
-            </form>
-            {% else %}
-            <a href="{% url 'login' %}" class="btn btn-primary mx-2">Login</a>
-            <a href="{% url 'register' %}" class="btn btn-primary mx-2">Register</a>
-            {% endif %} 
-          </div>
+                <div class="d-flex align-items-center animate__animated animate__fadeInRight">
+                    <a href="{% url 'blog_list' %}" class="btn btn-primary mx-2">
+                        <i class="fas fa-home me-1"></i> Home
+                    </a>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'blog_create' %}" class="btn btn-primary mx-2">
+                        <i class="fas fa-pen me-1"></i> Write
+                    </a>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button class="btn btn-danger">
+                            <i class="fas fa-sign-out-alt me-1"></i> Logout
+                        </button>
+                    </form>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary mx-2">
+                        <i class="fas fa-sign-in-alt me-1"></i> Login
+                    </a>
+                    <a href="{% url 'register' %}" class="btn btn-primary mx-2">
+                        <i class="fas fa-user-plus me-1"></i> Register
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-      </nav> 
-    <div class="container">
+    </nav>
+
+    {% if request.path == '/blog/' or request.path == '/' %}
+    <div class="hero-section">
+        <div class="container fade-in">
+            <h1 class="hero-title animate__animated animate__fadeInUp">Welcome to MindSpill</h1>
+            <p class="hero-subtitle animate__animated animate__fadeInUp animate__delay-1s">
+                Where thoughts flow freely, ideas transform, and stories come to life.
+                Share your perspective with the world.
+            </p>
+            <div class="animate__animated animate__fadeInUp animate__delay-2s">
+                <a href="{% url 'blog_create' %}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-feather-alt me-2"></i> Start Writing
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="container mt-4">
         {% block content %}
         {% endblock %}
     </div>
+
+    <!-- Wave Animation at Bottom -->
+    <div class="wave"></div>
+    
+    <!-- Footer -->
+    <footer class="mt-5">
+        <div class="container">
+            <p>© 2025 MindSpill</p>
+            <p>Made by Swapnil Raj</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" 
+            crossorigin="anonymous"></script>
+    
+    <script>
+        // Create animated particles
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const size = Math.random() * 100 + 50;
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                particle.style.animationDuration = `${15 + Math.random() * 15}s`;
+                particlesContainer.appendChild(particle);
+            }
+            
+            // Add fade-in animation to cards
+            const cards = document.querySelectorAll('.card');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+        });
+    </script>
 </body>
 
 </html>

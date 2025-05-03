@@ -6,6 +6,15 @@ Blogging Website
 
 {% block content %}
 
-<h1 class="text-center mt-4">Welcome to the Blogging Website</h1>
+<h1 class="text-center mt-4">Edit Blogs</h1>
+
+<h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+</h2>
+
 
 {% endblock %}
