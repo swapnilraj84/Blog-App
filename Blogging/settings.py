@@ -130,3 +130,8 @@ STATIC_URL = '/static/'    # URL prefix for static files
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),    # Directory to store static files
 ]
+
+LOGIN_URL = 'login'    # URL to redirect to for login
+LOGIN_REDIRECT_URL = 'blog_list'    # URL to redirect to after login
+LOGOUT_REDIRECT_URL = 'blog_list'    # URL to redirect to after logout
+
