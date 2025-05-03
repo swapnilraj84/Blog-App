@@ -77,13 +77,13 @@
         }
         
         .navbar-brand {
-            font-weight: 700;
-            font-size: 1.8rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          font-weight: 700;
+          font-size: 1.8rem;
+          background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+         -webkit-background-clip: text; /* For WebKit-based browsers */
+          background-clip: text;         /* Standard property */
+         -webkit-text-fill-color: transparent; /* Ensures text transparency for WebKit */
+         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         .navbar img {
@@ -136,13 +136,14 @@
         }
         
         .hero-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+          font-size: 3.5rem;
+          font-weight: 800;
+          margin-bottom: 1.5rem;
+          background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+          -webkit-background-clip: text; /* For WebKit-based browsers */
+          background-clip: text;         /* Standard property */
+          -webkit-text-fill-color: transparent; /* Ensures text transparency for WebKit */
+}
         
         .hero-subtitle {
             font-size: 1.2rem;
