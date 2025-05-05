@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-r!jvafep_58w4y0uxsq5u=2#mj2_^di)04r1bj-p73osf1$x45
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -130,6 +131,8 @@ STATIC_URL = '/static/'    # URL prefix for static files
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),    # Directory to store static files
 ]
+
+STATICSTORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LOGIN_URL = 'login'    # URL to redirect to for login
 LOGIN_REDIRECT_URL = 'blog_list'    # URL to redirect to after login
