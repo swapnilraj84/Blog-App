@@ -1,20 +1,161 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Blogging Website
+{% if form.instance.pk %}Edit Blog{% else %}Create Blog{% endif %} | Blogging Website
 {% endblock %}
 
 {% block content %}
+<div class="row justify-content-center fade-in">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-lg animate__animated animate__fadeIn">
+            <div class="card-header bg-transparent border-bottom border-purple">
+                <h2 class="text-center m-0 py-3" style="background: linear-gradient(45deg, #8a2be2, #9370db); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    <i class="fas {% if form.instance.pk %}fa-edit{% else %}fa-feather-alt{% endif %} me-2"></i>
+                    {% if form.instance.pk %}Edit Your Blog{% else %}Create New Blog{% endif %}
+                </h2>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data" class="form">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                    <div class="mb-4">
+                        <label for="{{ field.id_for_label }}" class="form-label fw-bold" style="color: #9370db;">
+                            {{ field.label }}
+                            {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                        </label>
+                        
+                        {% if field.name == 'photo' or field.name == 'image' %}
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent text-purple">
+                                <i class="fas fa-image"></i>
+                            </span>
+                            {{ field }}
+                        </div>
+                        {% elif field.name == 'text' or field.name == 'content' or field.name == 'body' %}
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent text-purple">
+                                <i class="fas fa-paragraph"></i>
+                            </span>
+                            {{ field }}
+                        </div>
+                        {% else %}
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent text-purple">
+                                <i class="fas fa-pencil-alt"></i>
+                            </span>
+                            {{ field }}
+                        </div>
+                        {% endif %}
+                        
+                        {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                        
+                        {% if field.errors %}
+                        <div class="text-danger mt-1">
+                            {% for error in field.errors %}
+                            <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'blog_list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Blogs
+                        </a>
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas {% if form.instance.pk %}fa-save{% else %}fa-paper-plane{% endif %} me-2"></i>
+                            {% if form.instance.pk %}Save Changes{% else %}Publish{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="position-relative d-none d-lg-block">
+            <div class="position-absolute" style="top: -50px; right: -80px; width: 150px; height: 150px; border-radius: 50%; background: linear-gradient(45deg, rgba(138, 43, 226, 0.2), rgba(147, 112, 219, 0.1)); filter: blur(20px); z-index: -1;"></div>
+            <div class="position-absolute" style="bottom: -30px; left: -60px; width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(45deg, rgba(75, 0, 130, 0.2), rgba(138, 43, 226, 0.1)); filter: blur(15px); z-index: -1;"></div>
+        </div>
+    </div>
+</div>
 
-<h1 class="text-center mt-4">Edit Blogs</h1>
+<style>
+    /* Custom styles for form elements */
+    .form-control, .form-select {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(147, 112, 219, 0.3);
+        color: #f8f9fa;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: #8a2be2;
+        box-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+    }
+    
+    .input-group-text {
+        border: 1px solid rgba(147, 112, 219, 0.3);
+        border-right: none;
+    }
+    
+    .text-purple {
+        color: #9370db;
+    }
+    
+    .border-purple {
+        border-color: rgba(147, 112, 219, 0.3) !important;
+    }
+    
+    textarea.form-control {
+        min-height: 150px;
+    }
+    
+    /* File input styling */
+    input[type="file"] {
+        position: relative;
+    }
+    
+    input[type="file"]::file-selector-button {
+        background: linear-gradient(45deg, #8a2be2, #4b0082);
+        border: none;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+        font-weight: 500;
+        margin-right: 10px;
+        padding: 8px 16px;
+        transition: all 0.3s ease;
+    }
+    
+    input[type="file"]::file-selector-button:hover {
+        background: linear-gradient(45deg, #9370db, #8a2be2);
+        transform: translateY(-2px);
+    }
+</style>
 
-<h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
-</h2>
-
-
+<script>
+    // Add Bootstrap classes to form elements
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add classes to form controls
+        const formControls = document.querySelectorAll('input, select, textarea');
+        formControls.forEach(element => {
+            if (element.type !== 'submit' && element.type !== 'button') {
+                element.classList.add('form-control');
+            }
+        });
+        
+        // Add animation to form submission
+        const form = document.querySelector('form');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        
+        form.addEventListener('submit', function(e) {
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...';
+            submitBtn.disabled = true;
+        });
+    });
+</script>
 {% endblock %}
